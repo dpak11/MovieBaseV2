@@ -12,22 +12,21 @@ const Home = () => {
     background: "red",
     padding: "3px",
     color: "#e28b8b",
-    backgroundColor: "rgba(139, 124, 124, 0.5)"
+    backgroundColor: "rgba(58, 44, 44, 0.5)"
   }
 
   return (
     <div style={homestyle}>
-      <h1>Welcome to React Movie Base (Homepage)</h1>
+      <h1>Welcome to React Movie Base (V2.0)</h1>
       <p>
         <li>
-          The Gallery Link will load random list of movies from external API{" "}
+          The Gallery page will load Top 100 movies from the MovieDB API{" "}
           <span style={apilink}>
-            https://api.mockaroo.com/api/671ec130?key=30660820
+          https://api.themoviedb.org
           </span>
         </li>
         <li>
-          Filter through the loaded Movies by Category or by Genre or by searching
-          the movie name. Or all combined.
+         You can then Filter through the Movies by genre,name,rating, date,  or all combined.
         </li>
       </p>
     </div>
