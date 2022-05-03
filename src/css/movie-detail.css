@@ -1,0 +1,16 @@
+.detailStyle {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.detailStyle h1 {
+  border-bottom: dotted 2px gray;
+}
+.detailStyle > div{
+  max-width: 80%;
+}
+.ratingText {
+  font-size: 2.4em;
+  font-weight: bold;
+}

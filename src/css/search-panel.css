@@ -1,0 +1,42 @@
+
+.searchStyle {
+    padding: 10px;
+    border-radius: 5px;
+    width: 20%;
+    min-width: 160px;
+  }
+  .genreStyle {
+    border: 1px solid grey;
+    padding: 3px 5px;
+    border-radius: 7px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    background-color: rgb(64, 143, 129);
+    color: #fff;
+    cursor: pointer;
+  }
+  .genreListing {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center
+  }
+  
+  .sortSection {
+    text-align: center;
+    color: #aeaef0;
+  }
+  
+  .sortSection label {
+    color: #bba276;
+    padding-right: 10px;
+    font-weight: bold;
+  }
+  .sortSection span {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .sortSection span.active{
+    font-weight: bold;
+    color: #d0f11d;
+  }
+  
