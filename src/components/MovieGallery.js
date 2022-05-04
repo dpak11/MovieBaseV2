@@ -30,7 +30,8 @@ const Gallery = () => {
 
   const removeMovie = (id) => {
     movieRef.current = movieRef.current.filter((m) => m.id !== id);
-    setMovies(setFilters());
+    //setMovies(setFilters());
+    sortAndFilter();
   };
 
   const selectGenre = (genre, target) => {
@@ -41,7 +42,8 @@ const Gallery = () => {
       tagsRef.current.push(genre);
     }
     target.classList.toggle("tag-selected");
-    setMovies(setFilters());
+    //setMovies(setFilters());
+    sortAndFilter();
   };
 
   const getTaggedMovieList = (movList) => {
@@ -95,13 +97,16 @@ const Gallery = () => {
   const fetchData = async () => {
     await callMovieAPI(1)
     await callMovieAPI(2)
-    await callMovieAPI(3)    
+    await callMovieAPI(3)
+    await callMovieAPI(4)  
+    await callMovieAPI(5)  
     console.log(movieRef.current)
     setMovies(movieRef.current);
   };
 
  
-  const sortby = (param) => {
+  const sortAndFilter = (params=null) => {
+    const param = params || document.querySelector(".sortSection .active")?.dataset?.sortype;
     let mov = setFilters();
     setSortType(() => {
       return {
@@ -136,7 +141,8 @@ const Gallery = () => {
 
   useEffect(() => {
     console.log("useEffect, movie name changed");
-    setMovies(setFilters());
+    //setMovies(setFilters());
+    sortAndFilter();
   }, [moviename]);
 
   useEffect(() => {
@@ -160,7 +166,7 @@ const Gallery = () => {
     visitedRef.current.push(visitedPage);
     sessionStorage.removeItem("page");
   }
-  const noMovieText = movieRef.current && !movies.length ? "No Movies Found" : !movieRef.current ? "Loading..." : "";
+  const noMovieText = movieRef.current.length && !movies.length ? "No Movies Found" : !movieRef.current.length ? "Loading..." : "";
 
   return (
     <div className="galleryStyle">
@@ -171,7 +177,7 @@ const Gallery = () => {
         movieSearch={movieSearch}
         movieRef={movieRef.current}
         sortType={sortType}
-        sortby={sortby}
+        sortby={sortAndFilter}
         selectGenre={selectGenre}
       />      
       

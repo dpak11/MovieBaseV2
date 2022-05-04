@@ -24,6 +24,7 @@ export const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre
         <label>Sort By :</label>
         <span
           className={sortType.rating ? "active" : ""}
+          data-sortype="rating"
           onClick={() => sortby("rating")}
         >
           Rating
@@ -31,6 +32,7 @@ export const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre
         &nbsp; | &nbsp;
         <span
           className={sortType.name ? "active" : ""}
+          data-sortype="name"
           onClick={() => sortby("name")}
         >
           Name
@@ -38,6 +40,7 @@ export const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre
         &nbsp; | &nbsp;
         <span
           className={sortType.release ? "active" : ""}
+          data-sortype="release"
           onClick={() => sortby("release")}
         >
           Release Date
