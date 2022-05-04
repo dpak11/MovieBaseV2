@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import { MovieContext } from "../store/MovieContext";
 import { useContext,useEffect,useState } from "react";
 import "../css/movie-detail.css";
@@ -8,7 +8,8 @@ import "../css/movie-detail.css";
 const MovieDetail = ({ match }) => {
   const { movies } = useContext(MovieContext);
   const [details, setDetails] = useState(null);
-  const movieID = Number(match.params.id);  
+  const params = useParams();
+  const movieID = Number(params.id);  
   const movie = movies.find((m) => m.id === movieID);
   sessionStorage.setItem("page", movie.name);
   const genres = movie.genre.split("|");

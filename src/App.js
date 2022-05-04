@@ -7,8 +7,8 @@ import { MovieProvider } from "./store/MovieContext";
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
-  Switch,
+  Routes,
+  Navigate  
 } from "react-router-dom";
 
 import "./css/App.css";
@@ -20,12 +20,12 @@ function App() {
         <Nav />
         <MovieProvider>
           <div>
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/gallery" component={Gallery} />
-              <Route path="/details/:id" component={MovieDetail} />
-              <Route path="/*" component={() => <Redirect to="/" />} />
-            </Switch>
+            <Routes>
+              <Route path="/" exact element={<Home />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/details/:id" element={<MovieDetail />} />
+              <Route path="/*" element={<Navigate to="/" />} />
+            </Routes>
           </div>
           <Footer />
         </MovieProvider>
