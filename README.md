@@ -1,7 +1,9 @@
 # React Moviebase V2.0
 
 React - Version 18
-Rect router DOM - Version 6
+
+React Router DOM - Version 6
+
 API - `https://api.themoviedb.org`
 
 

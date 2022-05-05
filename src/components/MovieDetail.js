@@ -25,7 +25,7 @@ const MovieDetail = ({ match }) => {
   return (
     details && (<div className="detailStyle">
       <div>
-        <h4 style={{ color: "grey" }}>MOVIE DETAILS:</h4>
+        <h4 style={{ color: "grey" }}>MOVIE DETAILS: <span className="back-link"><Link to="/gallery">&lt; Go Back</Link></span></h4>
         <h1>{movie.name}</h1>
         <p>
           <img src={`https://image.tmdb.org/t/p/w500${details.poster_path}`} width="300" alt="" />
@@ -44,7 +44,7 @@ const MovieDetail = ({ match }) => {
           Release Date: <b>{mov_date}</b>
         </p>
         <p>
-          Country: <b>{details.production_countries[0].name}</b>
+          Country: <b>{details.production_countries[0]?.name}</b>
         </p>
         <p>
           {details.overview}
@@ -53,7 +53,7 @@ const MovieDetail = ({ match }) => {
         <p>
           <span className={`${colorRate} ratingText`}>{movie.rating}%</span>
         </p>
-        <Link to="/gallery">&lt; Go Back</Link>
+        
       </div>
     </div>)
   );

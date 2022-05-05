@@ -22,18 +22,22 @@ body {
   border-bottom: solid 3px #1f675a;
 }
 .nav-bar a {
-  color: #d18795;
+  color: #cbb5ea;
 }
 
 .nav-bar a:hover {
-  color: #a3a2ec;
+  color: #9f98f0;
 }
 
 .footer{
   height:10vh;
-  background-color:gray;
+  background-color:#393535;
   padding:20px;
   text-align:center
+}
+.footer img{
+  width: 200px;
+  height: auto;
 }
 
 .rate-pale {
