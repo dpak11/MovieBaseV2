@@ -14,7 +14,7 @@ const Gallery = () => {
     rating: false,
     runtime: false,
   });
-  const { movies, setMovies, movieRef, tagsRef, visitedRef } =
+  const { movies, setMovies, movieRef, tagsRef, visitedRef,sortTypeRef } =
     useContext(MovieContext);
 
   const movieSearch = (e) => {
@@ -103,17 +103,25 @@ const Gallery = () => {
 
   
   const sortAndFilter = (params=null) => {
-    const param = params || document.querySelector(".sortSection .active")?.dataset?.sortype;
-    let mov = setFilters();
-    setSortType(() => {
-      return {
-        name: false,
-        rating: false,
-        release: false,
-        [param]: true,
-      };
-    });
-    if (param === "release") {
+    const getTrueSort = () => {
+      if(params) return params;
+      return sortTypeRef.current?.name?"name":sortTypeRef.current?.rating?"rating":sortTypeRef.current?.release?"release":null
+    };    
+    const sortParam = getTrueSort()
+    console.log("getTrueSort",sortParam)
+    let mov = setFilters()
+    if(sortParam){
+      setSortType(() => {
+        return {
+          name: false,
+          rating: false,
+          release: false,
+          [sortParam]: true,
+        };
+      });
+    }
+    
+    if (sortParam === "release") {
       mov = mov.map((m) => { 
         let r = m.release.split("-")
         r.pop();
@@ -123,16 +131,17 @@ const Gallery = () => {
       }});
       mov.sort((a, b) => a.releaseNumeric - b.releaseNumeric);
     }
-    if (param === "name") {
+    if (sortParam === "name") {
       mov.sort((a, b) => {
         if (a.name < b.name) return -1;
         if (a.name > b.name) return 1;
         return 0;
       });
     }
-    if (param === "rating") {
+    if (sortParam === "rating") {
       mov.sort((a, b) => b.rating - a.rating);
     }
+    sortTypeRef.current = {...sortType};
     setMovies(mov);
   };
 
