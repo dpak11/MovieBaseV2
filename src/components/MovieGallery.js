@@ -30,7 +30,6 @@ const Gallery = () => {
 
   const removeMovie = (id) => {
     movieRef.current = movieRef.current.filter((m) => m.id !== id);
-    //setMovies(setFilters());
     sortAndFilter();
   };
 
@@ -42,7 +41,6 @@ const Gallery = () => {
       tagsRef.current.push(genre);
     }
     target.classList.toggle("tag-selected");
-    //setMovies(setFilters());
     sortAndFilter();
   };
 
@@ -54,8 +52,7 @@ const Gallery = () => {
 
   const setFilters = () => {
     const searchedNames = nameSearch();
-    const tagsFilter = getTaggedMovieList(searchedNames || []);
-    return tagsFilter;
+    return getTaggedMovieList(searchedNames || []);
   };
 
   const genreList = {"genres":[{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":16,"name":"Animation"},{"id":35,"name":"Comedy"},{"id":80,"name":"Crime"},{"id":99,"name":"Documentary"},{"id":18,"name":"Drama"},{"id":10751,"name":"Family"},{"id":14,"name":"Fantasy"},{"id":36,"name":"History"},{"id":27,"name":"Horror"},{"id":10402,"name":"Music"},{"id":9648,"name":"Mystery"},{"id":10749,"name":"Romance"},{"id":878,"name":"Science Fiction"},{"id":10770,"name":"TV Movie"},{"id":53,"name":"Thriller"},{"id":10752,"name":"War"},{"id":37,"name":"Western"}]};
@@ -104,7 +101,7 @@ const Gallery = () => {
     setMovies(movieRef.current);
   };
 
- 
+  
   const sortAndFilter = (params=null) => {
     const param = params || document.querySelector(".sortSection .active")?.dataset?.sortype;
     let mov = setFilters();
@@ -141,20 +138,17 @@ const Gallery = () => {
 
   useEffect(() => {
     console.log("useEffect, movie name changed");
-    //setMovies(setFilters());
     sortAndFilter();
   }, [moviename]);
 
   useEffect(() => {
-    tagsRef.current = [];
     console.log("useEffect");
-    if (!movieRef.current || !movieRef.current.length) {
-      console.log("xxx");
+    if (!movieRef.current.length) {
       fetchData();
-    } else {
-      console.log("yyy");
-      setMovies(movieRef.current);
+    } else {   
+      sortAndFilter() 
     }
+    console.log("tagsRef",tagsRef.current)
   }, []);
 
   const visitedPage = sessionStorage.getItem("page") || "";

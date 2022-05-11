@@ -7,6 +7,7 @@ export const MovieProvider = ({ children }) => {
   const movieRef = useRef([]);
   const tagsRef = useRef([]);
   const visitedRef = useRef([]);
+ 
   return (
     <MovieContext.Provider value={{ movies, setMovies, movieRef, tagsRef, visitedRef }}>
       {children}

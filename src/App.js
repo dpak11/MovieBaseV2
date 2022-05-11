@@ -26,9 +26,9 @@ function App() {
               <Route path="/details/:id" element={<MovieDetail />} />
               <Route path="/*" element={<Navigate to="/" />} />
             </Routes>
-          </div>
-          <Footer />
+          </div>          
         </MovieProvider>
+        <Footer />
       </div>
     </Router>
   );

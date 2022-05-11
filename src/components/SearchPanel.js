@@ -1,7 +1,9 @@
 import '../css/search-panel.css';
+import { MovieContext } from "../store/MovieContext";
+import { useContext } from "react";
 
 export const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre, movieRef}) => { 
-
+  const {tagsRef} = useContext(MovieContext);
   let allGenres = movieRef
     ? movieRef.map((m) => m.genre.split("|"))
     : [];
@@ -52,7 +54,7 @@ export const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre
             <span
               key={i}
               onClick={(e) => selectGenre(genre, e.target)}
-              className="genreStyle"
+              className={tagsRef.current.includes(genre)?"tag-selected genreStyle":"genreStyle"}
             >
               {genre}
             </span>
