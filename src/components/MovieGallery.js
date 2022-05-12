@@ -101,22 +101,23 @@ const Gallery = () => {
 
   
   const sortAndFilter = (params=null) => {
+    //console.log("----Start: Sort and Filter----")
     const getTrueSort = () => {
       if(params) return params;
       return sortTypeRef.current?.name?"name":sortTypeRef.current?.rating?"rating":sortTypeRef.current?.release?"release":null
     };    
     const sortParam = getTrueSort()
-    console.log("getTrueSort",sortParam,sortTypeRef.current)
+    //console.log("sortParam",sortParam,sortTypeRef.current)
     let mov = setFilters()
     if(sortParam){
-      setSortType(() => {
-        return {
-          name: false,
-          rating: false,
-          release: false,
-          [sortParam]: true,
-        };
-      });
+      const sortTypeData = {
+        name: false,
+        rating: false,
+        release: false,
+        [sortParam]: true,
+      };
+      sortTypeRef.current = sortTypeData;
+      setSortType(sortTypeData);
     }
     
     if (sortParam === "release") {
@@ -139,21 +140,18 @@ const Gallery = () => {
     if (sortParam === "rating") {
       mov.sort((a, b) => b.rating - a.rating);
     }
-
-    sortTypeRef.current = {...sortType};
-    console.log("sortTypeRef", sortTypeRef.current)
+    //console.log("sortTypeRef", sortTypeRef.current)
     setMovies(mov);
   };
 
   
   useEffect(() => {
-    console.log("OnMount useEffect");
+    console.log("OnMount");
     if (!movieRef.current.length) {
       fetchData();
     } else {   
       sortAndFilter() 
     }
-    console.log("tagsRef",tagsRef.current)
   }, []);
 
   useEffect(() => {
