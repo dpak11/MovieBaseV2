@@ -19,7 +19,7 @@ const MovieDetail = ({ match }) => {
     fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=0fec03f37874864d189b9e4e3c1eec79&language=en-US`)
     .then(data=>data.json())
     .then(movDetails => setDetails(movDetails))
-  },[]);
+  },[movieID]);
   const mRelease=movie.release.split("-")
   const mov_date = `${mRelease[2]}/${mRelease[1]}/${mRelease[0]}`
   return (

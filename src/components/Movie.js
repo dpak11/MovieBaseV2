@@ -2,13 +2,12 @@ import { Link } from "react-router-dom";
 import '../css/movie.css';
 
 const Movie = ({ movInfo, removeMovie, isvisited }) => {
-  //console.log(movInfo)
   const deleteMovie = (e) => {
     const id = e.target.getAttribute("data-id");
     removeMovie(Number(id));
   };
 
-  console.log("rendering Movie Item");
+  //console.log("rendering Movie Item");
   const genres = movInfo.genre.split("|");
   //const runtime = typeof movInfo.runtime === "number" ? `${movInfo.runtime} mins` : movInfo.runtime;
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];

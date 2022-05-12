@@ -55,12 +55,12 @@ const Gallery = () => {
     return getTaggedMovieList(searchedNames || []);
   };
 
-  const genreList = {"genres":[{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":16,"name":"Animation"},{"id":35,"name":"Comedy"},{"id":80,"name":"Crime"},{"id":99,"name":"Documentary"},{"id":18,"name":"Drama"},{"id":10751,"name":"Family"},{"id":14,"name":"Fantasy"},{"id":36,"name":"History"},{"id":27,"name":"Horror"},{"id":10402,"name":"Music"},{"id":9648,"name":"Mystery"},{"id":10749,"name":"Romance"},{"id":878,"name":"Science Fiction"},{"id":10770,"name":"TV Movie"},{"id":53,"name":"Thriller"},{"id":10752,"name":"War"},{"id":37,"name":"Western"}]};
+  const genreList = [{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":16,"name":"Animation"},{"id":35,"name":"Comedy"},{"id":80,"name":"Crime"},{"id":99,"name":"Documentary"},{"id":18,"name":"Drama"},{"id":10751,"name":"Family"},{"id":14,"name":"Fantasy"},{"id":36,"name":"History"},{"id":27,"name":"Horror"},{"id":10402,"name":"Music"},{"id":9648,"name":"Mystery"},{"id":10749,"name":"Romance"},{"id":878,"name":"Science Fiction"},{"id":10770,"name":"TV Movie"},{"id":53,"name":"Thriller"},{"id":10752,"name":"War"},{"id":37,"name":"Western"}];
 
   const getGenres = (ids) => {
     let list = [];
     for (let i in ids) {
-        let {name} = genreList.genres.find((item)=>item.id === ids[i])
+        let {name} = genreList.find((item)=>item.id === ids[i])
         list.push(name)
     }
     return list.join("|")
@@ -69,13 +69,11 @@ const Gallery = () => {
 
   const dataRestructure = (results) => {   
    return results.map((item) => {
-    const {id,title,release_date,poster_path,genre_ids,vote_average} = item;
+    const {id,title:name,release_date:release,poster_path,genre_ids:genre,vote_average} = item;
     return {
-      id,
-      name:title,
-      release:release_date,
+      id,name,release,
       photos:`https://image.tmdb.org/t/p/w500${poster_path}`,
-      genre:getGenres(genre_ids),
+      genre:getGenres(genre),
       rating:Number(vote_average)*10
     }    
    });
@@ -108,7 +106,7 @@ const Gallery = () => {
       return sortTypeRef.current?.name?"name":sortTypeRef.current?.rating?"rating":sortTypeRef.current?.release?"release":null
     };    
     const sortParam = getTrueSort()
-    console.log("getTrueSort",sortParam)
+    console.log("getTrueSort",sortParam,sortTypeRef.current)
     let mov = setFilters()
     if(sortParam){
       setSortType(() => {
@@ -141,17 +139,15 @@ const Gallery = () => {
     if (sortParam === "rating") {
       mov.sort((a, b) => b.rating - a.rating);
     }
+
     sortTypeRef.current = {...sortType};
+    console.log("sortTypeRef", sortTypeRef.current)
     setMovies(mov);
   };
 
+  
   useEffect(() => {
-    console.log("useEffect, movie name changed");
-    sortAndFilter();
-  }, [moviename]);
-
-  useEffect(() => {
-    console.log("useEffect");
+    console.log("OnMount useEffect");
     if (!movieRef.current.length) {
       fetchData();
     } else {   
@@ -160,6 +156,12 @@ const Gallery = () => {
     console.log("tagsRef",tagsRef.current)
   }, []);
 
+  useEffect(() => {
+    console.log("useEffect, movie name changed");
+    sortAndFilter();
+  }, [moviename]);
+
+  console.log("rendered gallery", sortTypeRef.current)
   const visitedPage = sessionStorage.getItem("page") || "";
   if (visitedPage) {
     const index = visitedRef.current.indexOf(visitedPage);
