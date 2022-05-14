@@ -10,16 +10,18 @@ const MovieDetail = ({ match }) => {
   const [details, setDetails] = useState(null);
   const params = useParams();
   const movieID = Number(params.id);  
-  const movie = movies.find((m) => m.id === movieID);
-  sessionStorage.setItem("page", movie.name);
+  const movie = movies.find((m) => m.id === movieID);  
   const genres = movie.genre.split("|");
   let colorRate = Number(movie.rating) > 50 ? "rate-grey" : "rate-pale";
   colorRate = Number(movie.rating) >= 85 ? "rate-red" : colorRate;
+  sessionStorage.setItem("page", movie.name);
+
   useEffect(()=>{
     fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=0fec03f37874864d189b9e4e3c1eec79&language=en-US`)
     .then(data=>data.json())
     .then(movDetails => setDetails(movDetails))
   },[movieID]);
+
   const mRelease=movie.release.split("-")
   const mov_date = `${mRelease[2]}/${mRelease[1]}/${mRelease[0]}`
   return (

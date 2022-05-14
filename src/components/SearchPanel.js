@@ -2,7 +2,7 @@ import '../css/search-panel.css';
 import { MovieContext } from "../store/MovieContext";
 import { useContext } from "react";
 
-export const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre, movieRef}) => { 
+const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre, movieRef}) => { 
   const {tagsRef} = useContext(MovieContext);
   let allGenres = movieRef
     ? movieRef.map((m) => m.genre.split("|"))
@@ -60,3 +60,4 @@ export const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre
     </>
   );
 };
+export default SearchPanel;

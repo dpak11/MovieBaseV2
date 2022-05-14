@@ -1,4 +1,4 @@
-export const VisitedList = ({ visited }) => {
+const VisitedList = ({ visited }) => {
   const toggleFullName = (e) => {
     const fullName = e.target.getAttribute("data-name");
     console.log(fullName, e.target.textContent);
@@ -32,3 +32,5 @@ export const VisitedList = ({ visited }) => {
     </p>
   );
 };
+
+export default VisitedList

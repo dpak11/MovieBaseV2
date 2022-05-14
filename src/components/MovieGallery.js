@@ -1,20 +1,22 @@
 import { MovieContext } from "../store/MovieContext";
-import { useContext, useState, useEffect } from "react";
-import { SearchPanel } from "./SearchPanel";
-import { VisitedList } from "./VisitedList";
+import { useContext, useState, useEffect,useReducer } from "react";
+import SearchPanel from "./SearchPanel";
+import VisitedList from "./VisitedList";
+import MovieListReducer from "../reducers/movieReducer";
 import Movie from "./Movie";
 import "../css/movie-gallery.css";
 //https://api.themoviedb.org/3/discover/movie?api_key=0fec03f37874864d189b9e4e3c1eec79&with_origin_country=IN&with_original_language=ta
 
 
 const Gallery = () => {
+  const [movies, movieDispatch] = useReducer(MovieListReducer, [])
   const [moviename, setMoviename] = useState("");
   const [sortType, setSortType] = useState({
     name: false,
     rating: false,
     runtime: false,
   });
-  const { movies, setMovies, movieRef, tagsRef, visitedRef,sortTypeRef } =
+  const { movieRef, tagsRef, visitedRef,sortTypeRef } =
     useContext(MovieContext);
 
   const movieSearch = (e) => {
@@ -94,9 +96,8 @@ const Gallery = () => {
     await callMovieAPI(2)
     await callMovieAPI(3)
     await callMovieAPI(4)  
-    await callMovieAPI(5)  
-    console.log(movieRef.current)
-    setMovies(movieRef.current);
+    await callMovieAPI(5)
+    movieDispatch({type:"LOAD", payload:movieRef.current})  
   };
 
   
@@ -106,42 +107,11 @@ const Gallery = () => {
       if(params) return params;
       return sortTypeRef.current?.name?"name":sortTypeRef.current?.rating?"rating":sortTypeRef.current?.release?"release":null
     };    
-    const sortParam = getTrueSort()
-    //console.log("sortParam",sortParam,sortTypeRef.current)
-    let mov = setFilters()
-    if(sortParam){
-      const sortTypeData = {
-        name: false,
-        rating: false,
-        release: false,
-        [sortParam]: true,
-      };
-      sortTypeRef.current = sortTypeData;
-      setSortType(sortTypeData);
-    }
-    
-    if (sortParam === "release") {
-      mov = mov.map((m) => { 
-        let r = m.release.split("-")
-        r.pop();
-        const releaseNumeric = Number(r.join(""));
-        return {
-        ...m,releaseNumeric        
-      }});
-      mov.sort((a, b) => a.releaseNumeric - b.releaseNumeric);
-    }
-    if (sortParam === "name") {
-      mov.sort((a, b) => {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-      });
-    }
-    if (sortParam === "rating") {
-      mov.sort((a, b) => b.rating - a.rating);
-    }
-    //console.log("sortTypeRef", sortTypeRef.current)
-    setMovies(mov);
+    const sortParam = getTrueSort()    
+    movieDispatch({type:"SORT_FILTER", payload:{
+      sortParam,setFilters,
+      sortTypeRef,setSortType
+    }})  
   };
 
   
