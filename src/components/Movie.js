@@ -7,9 +7,7 @@ const Movie = ({ movInfo, removeMovie, isvisited }) => {
     removeMovie(Number(id));
   };
 
-  //console.log("rendering Movie Item");
   const genres = movInfo.genre.split("|");
-  //const runtime = typeof movInfo.runtime === "number" ? `${movInfo.runtime} mins` : movInfo.runtime;
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const date = movInfo.release.split("-");
   const release = `${months[Number(date[1])-1]} ${date[0]}`;  

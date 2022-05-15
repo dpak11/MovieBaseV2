@@ -2,12 +2,13 @@
 const MovieListReducer = (state, action) => {  
     if(action.type === "LOAD"){
       console.log("load reducer")
-      return [...action.payload]
+      return {movies: [...action.payload]}
     }
     if(action.type === "SORT_FILTER"){
-      const {setFilters,sortParam,sortTypeRef,setSortType} = action.payload;
+      const {setFilters,sortParam,sortTypeRef} = action.payload;
       console.log("Sort Filter Reducer")
       let mov = setFilters()
+      let currentState = {...state}      
       if(sortParam){
         const sortTypeData = {
           name: false,
@@ -15,8 +16,8 @@ const MovieListReducer = (state, action) => {
           release: false,
           [sortParam]: true,
         };
+        currentState.sortType = sortTypeData
         sortTypeRef.current = sortTypeData;
-        setSortType(sortTypeData);
       }
       if (sortParam === "release") {
         mov = mov.map((m) => { 
@@ -38,7 +39,8 @@ const MovieListReducer = (state, action) => {
       if (sortParam === "rating") {
         mov.sort((a, b) => b.rating - a.rating);
       }
-      return mov
+      currentState.movies = mov
+      return currentState
     }
     return state;
   }

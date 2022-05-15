@@ -2,21 +2,15 @@ import { MovieContext } from "../store/MovieContext";
 import { useContext, useState, useEffect,useReducer } from "react";
 import SearchPanel from "./SearchPanel";
 import VisitedList from "./VisitedList";
-import MovieListReducer from "../reducers/movieReducer";
 import Movie from "./Movie";
+import {GET_VALUES} from "../store/Constants";
 import "../css/movie-gallery.css";
-//https://api.themoviedb.org/3/discover/movie?api_key=0fec03f37874864d189b9e4e3c1eec79&with_origin_country=IN&with_original_language=ta
 
+const { THUMBNAIL_IMG,TOP_RATED_MOVIE,GENRE_LIST} = GET_VALUES
 
-const Gallery = () => {
-  const [movies, movieDispatch] = useReducer(MovieListReducer, [])
-  const [moviename, setMoviename] = useState("");
-  const [sortType, setSortType] = useState({
-    name: false,
-    rating: false,
-    runtime: false,
-  });
-  const { movieRef, tagsRef, visitedRef,sortTypeRef } =
+const Gallery = () => {  
+  const [moviename, setMoviename] = useState("");  
+  const { movieRef, tagsRef, visitedRef,sortTypeRef,movieDispatch,movieState } =
     useContext(MovieContext);
 
   const movieSearch = (e) => {
@@ -57,12 +51,11 @@ const Gallery = () => {
     return getTaggedMovieList(searchedNames || []);
   };
 
-  const genreList = [{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":16,"name":"Animation"},{"id":35,"name":"Comedy"},{"id":80,"name":"Crime"},{"id":99,"name":"Documentary"},{"id":18,"name":"Drama"},{"id":10751,"name":"Family"},{"id":14,"name":"Fantasy"},{"id":36,"name":"History"},{"id":27,"name":"Horror"},{"id":10402,"name":"Music"},{"id":9648,"name":"Mystery"},{"id":10749,"name":"Romance"},{"id":878,"name":"Science Fiction"},{"id":10770,"name":"TV Movie"},{"id":53,"name":"Thriller"},{"id":10752,"name":"War"},{"id":37,"name":"Western"}];
-
+  
   const getGenres = (ids) => {
     let list = [];
     for (let i in ids) {
-        let {name} = genreList.find((item)=>item.id === ids[i])
+        let {name} = GENRE_LIST.find((item)=>item.id === ids[i])
         list.push(name)
     }
     return list.join("|")
@@ -74,7 +67,7 @@ const Gallery = () => {
     const {id,title:name,release_date:release,poster_path,genre_ids:genre,vote_average} = item;
     return {
       id,name,release,
-      photos:`https://image.tmdb.org/t/p/w500${poster_path}`,
+      photos:`${THUMBNAIL_IMG}${poster_path}`,
       genre:getGenres(genre),
       rating:Number(vote_average)*10
     }    
@@ -83,7 +76,7 @@ const Gallery = () => {
  
   const callMovieAPI = async (pagenum) => {
     const data = await fetch(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=0fec03f37874864d189b9e4e3c1eec79&language=en-US&page=${pagenum}`
+      `${TOP_RATED_MOVIE}${pagenum}`
     );
     const movies = await data.json();
     const movieData = dataRestructure(movies.results)    
@@ -109,8 +102,7 @@ const Gallery = () => {
     };    
     const sortParam = getTrueSort()    
     movieDispatch({type:"SORT_FILTER", payload:{
-      sortParam,setFilters,
-      sortTypeRef,setSortType
+      sortParam, setFilters, sortTypeRef
     }})  
   };
 
@@ -139,17 +131,17 @@ const Gallery = () => {
     visitedRef.current.push(visitedPage);
     sessionStorage.removeItem("page");
   }
-  const noMovieText = movieRef.current.length && !movies.length ? "No Movies Found" : !movieRef.current.length ? "Loading..." : "";
+  const noMovieText = movieRef.current.length && !movieState.movies.length ? "No Movies Found" : !movieRef.current.length ? "Loading..." : "";
 
   return (
     <div className="galleryStyle">
-      <h1>Movie Gallery ({movies.length})</h1>
+      <h1>Movie Gallery ({movieState.movies.length})</h1>
 
       <SearchPanel
         moviename={moviename}
         movieSearch={movieSearch}
         movieRef={movieRef.current}
-        sortType={sortType}
+        sortType={movieState.sortType}
         sortby={sortAndFilter}
         selectGenre={selectGenre}
       />      
@@ -159,8 +151,8 @@ const Gallery = () => {
       <hr style={{ borderColor: "grey" }} />
 
       <div className="tileStyle">
-        {movies.length ? (
-          movies.map((mov, i) => (
+        {movieState.movies.length ? (
+          movieState.movies.map((mov, i) => (
             <Movie
               key={i}
               movInfo={mov}

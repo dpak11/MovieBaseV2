@@ -25,21 +25,21 @@ const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre, movie
       <p className="sortSection">
         <label>Sort By :</label>
         <span
-          className={sortType.rating ? "active" : ""}
+          className={sortType?.rating ? "active" : ""}
           onClick={() => sortby("rating")}
         >
           Rating
         </span>
         &nbsp; | &nbsp;
         <span
-          className={sortType.name ? "active" : ""}
+          className={sortType?.name ? "active" : ""}
           onClick={() => sortby("name")}
         >
           Name
         </span>
         &nbsp; | &nbsp;
         <span
-          className={sortType.release ? "active" : ""}
+          className={sortType?.release ? "active" : ""}
           onClick={() => sortby("release")}
         >
           Release Date

@@ -1,23 +1,24 @@
 import { Link,useParams } from "react-router-dom";
 import { MovieContext } from "../store/MovieContext";
 import { useContext,useEffect,useState } from "react";
+import {GET_VALUES} from "../store/Constants";
 import "../css/movie-detail.css";
 
-//https://api.themoviedb.org/3/movie/19404?api_key=0fec03f37874864d189b9e4e3c1eec79&language=en-US
+const {MOVIE_DETAIL,MOVIE_API} = GET_VALUES;
 
-const MovieDetail = ({ match }) => {
-  const { movies } = useContext(MovieContext);
+const MovieDetail = () => {
+  const { movieState } = useContext(MovieContext);
   const [details, setDetails] = useState(null);
   const params = useParams();
   const movieID = Number(params.id);  
-  const movie = movies.find((m) => m.id === movieID);  
+  const movie = movieState.movies.find((m) => m.id === movieID);  
   const genres = movie.genre.split("|");
   let colorRate = Number(movie.rating) > 50 ? "rate-grey" : "rate-pale";
   colorRate = Number(movie.rating) >= 85 ? "rate-red" : colorRate;
   sessionStorage.setItem("page", movie.name);
 
   useEffect(()=>{
-    fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=0fec03f37874864d189b9e4e3c1eec79&language=en-US`)
+    fetch(`${MOVIE_DETAIL}${movieID}${MOVIE_API}`)
     .then(data=>data.json())
     .then(movDetails => setDetails(movDetails))
   },[movieID]);
