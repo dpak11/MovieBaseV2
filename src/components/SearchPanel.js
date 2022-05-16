@@ -2,15 +2,14 @@ import '../css/search-panel.css';
 import { MovieContext } from "../store/MovieContext";
 import { useContext } from "react";
 
-const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre, movieRef}) => { 
-  const {tagsRef} = useContext(MovieContext);
-  let allGenres = movieRef
-    ? movieRef.map((m) => m.genre.split("|"))
+const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre}) => { 
+  const {tagsRef,movieRef} = useContext(MovieContext);
+  let allGenres = movieRef.current
+    ? movieRef.current.map((m) => m.genre.split("|"))
     : [];
   allGenres = allGenres.flat();
   allGenres = [...new Set(allGenres)].filter((g) => !g.includes("no genre"));
   allGenres.sort();
-  
   return (
     <>
       <p style={{ textAlign: "center" }}>

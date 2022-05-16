@@ -1,5 +1,5 @@
 import { MovieContext } from "../store/MovieContext";
-import { useContext, useState, useEffect,useReducer } from "react";
+import { useContext, useState, useEffect } from "react";
 import SearchPanel from "./SearchPanel";
 import VisitedList from "./VisitedList";
 import Movie from "./Movie";
@@ -10,7 +10,7 @@ const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST} = GET_VALUES
 
 const Gallery = () => {  
   const [moviename, setMoviename] = useState("");  
-  const { movieRef, tagsRef, visitedRef,sortTypeRef,movieDispatch,movieState } =
+  const { movieRef, tagsRef, visitedRef,sortTypeRef, movieDispatch, movieState } =
     useContext(MovieContext);
 
   const movieSearch = (e) => {
@@ -79,7 +79,7 @@ const Gallery = () => {
     let apiPromises = [];
     for(let i=1;i<=apiCalls;i++){
       apiPromises[i-1] = fetch(`${TOP_RATED_MOVIE}${i}`);
-    }
+    }    
     const allPromises = await Promise.all(apiPromises)
     let count= 0;
     return new Promise((res)=>{
@@ -88,7 +88,6 @@ const Gallery = () => {
               const movieData = dataRestructure(mov.results)    
               movieRef.current.push(...movieData)
               count++
-              //console.log("Count: ", count, movieData)
               if(count===apiCalls){
                 res();
               }
@@ -96,7 +95,7 @@ const Gallery = () => {
       })
     })
   }
-
+ 
   const fetchData = async () => {
     await callMovieAPI(10) 
     console.log("LOAD movieDispatch",movieRef.current)
@@ -150,7 +149,6 @@ const Gallery = () => {
       <SearchPanel
         moviename={moviename}
         movieSearch={movieSearch}
-        movieRef={movieRef.current}
         sortType={movieState.sortType}
         sortby={sortAndFilter}
         selectGenre={selectGenre}
