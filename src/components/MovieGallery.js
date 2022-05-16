@@ -6,7 +6,7 @@ import Movie from "./Movie";
 import {GET_VALUES} from "../store/Constants";
 import "../css/movie-gallery.css";
 
-const { THUMBNAIL_IMG,TOP_RATED_MOVIE,GENRE_LIST} = GET_VALUES
+const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST} = GET_VALUES
 
 const Gallery = () => {  
   const [moviename, setMoviename] = useState("");  
@@ -67,29 +67,39 @@ const Gallery = () => {
     const {id,title:name,release_date:release,poster_path,genre_ids:genre,vote_average} = item;
     return {
       id,name,release,
-      photos:`${THUMBNAIL_IMG}${poster_path}`,
+      photos:`${THUMBNAIL_PATH}${poster_path}`,
       genre:getGenres(genre),
       rating:Number(vote_average)*10
     }    
    });
   }
  
-  const callMovieAPI = async (pagenum) => {
-    const data = await fetch(
-      `${TOP_RATED_MOVIE}${pagenum}`
-    );
-    const movies = await data.json();
-    const movieData = dataRestructure(movies.results)    
-    movieRef.current.push(...movieData);
-    return;
+  const callMovieAPI = async (apiCalls) => {
+    console.log("callMovieAPI...")
+    let apiPromises = [];
+    for(let i=1;i<=apiCalls;i++){
+      apiPromises[i-1] = fetch(`${TOP_RATED_MOVIE}${i}`);
+    }
+    const allPromises = await Promise.all(apiPromises)
+    let count= 0;
+    return new Promise((res)=>{
+      allPromises.forEach(data => {
+          data.json().then(mov => {
+              const movieData = dataRestructure(mov.results)    
+              movieRef.current.push(...movieData)
+              count++
+              //console.log("Count: ", count, movieData)
+              if(count===apiCalls){
+                res();
+              }
+          })
+      })
+    })
   }
 
   const fetchData = async () => {
-    await callMovieAPI(1)
-    await callMovieAPI(2)
-    await callMovieAPI(3)
-    await callMovieAPI(4)  
-    await callMovieAPI(5)
+    await callMovieAPI(10) 
+    console.log("LOAD movieDispatch",movieRef.current)
     movieDispatch({type:"LOAD", payload:movieRef.current})  
   };
 
