@@ -18,7 +18,8 @@ const MovieDetail = () => {
   sessionStorage.setItem("page", movie.name);
 
   useEffect(()=>{
-    fetch(`${MOVIE_DETAIL}${movieID}${MOVIE_API}`)
+    const url = `${MOVIE_DETAIL}${movieID}${MOVIE_API}`;
+    fetch(url)
     .then(data=>data.json())
     .then(movDetails => setDetails(movDetails))
   },[movieID]);

@@ -6,7 +6,7 @@ import Movie from "./Movie";
 import {GET_VALUES} from "../store/Constants";
 import "../css/movie-gallery.css";
 
-const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST} = GET_VALUES
+const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM} = GET_VALUES
 
 const Gallery = () => {  
   const [moviename, setMoviename] = useState("");  
@@ -75,21 +75,20 @@ const Gallery = () => {
   }
  
   const callMovieAPI = async (apiCalls) => {
-    console.log("callMovieAPI...")
     let apiPromises = [];
     for(let i=1;i<=apiCalls;i++){
       apiPromises[i-1] = fetch(`${TOP_RATED_MOVIE}${i}`);
     }    
     const allPromises = await Promise.all(apiPromises)
     let count= 0;
-    return new Promise((res)=>{
+    return new Promise(resolve => {
       allPromises.forEach(data => {
           data.json().then(mov => {
               const movieData = dataRestructure(mov.results)    
               movieRef.current.push(...movieData)
               count++
               if(count===apiCalls){
-                res();
+                resolve();
               }
           })
       })
@@ -97,14 +96,12 @@ const Gallery = () => {
   }
  
   const fetchData = async () => {
-    await callMovieAPI(10) 
-    console.log("LOAD movieDispatch",movieRef.current)
+    await callMovieAPI(API_CALLS_NUM)
     movieDispatch({type:"LOAD", payload:movieRef.current})  
   };
 
   
   const sortAndFilter = (params=null) => {
-    //console.log("----Start: Sort and Filter----")
     const getTrueSort = () => {
       if(params) return params;
       return sortTypeRef.current?.name?"name":sortTypeRef.current?.rating?"rating":sortTypeRef.current?.release?"release":null
@@ -117,7 +114,6 @@ const Gallery = () => {
 
   
   useEffect(() => {
-    console.log("OnMount");
     if (!movieRef.current.length) {
       fetchData();
     } else {   
@@ -126,7 +122,6 @@ const Gallery = () => {
   }, []);
 
   useEffect(() => {
-    console.log("useEffect, movie name changed");
     sortAndFilter();
   }, [moviename]);
 

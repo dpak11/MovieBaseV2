@@ -20,7 +20,7 @@ const Home = () => {
       <h1>Welcome to React Movie Base (V2.0)</h1>
       <p>
         <li>
-          The Gallery page will load Top 100 movies from the MovieDB API{" "}
+          The Gallery page will load Top 200 movies from the MovieDB API{" "}
           <span style={apilink}>
           https://api.themoviedb.org
           </span>
