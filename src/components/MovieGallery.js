@@ -25,6 +25,8 @@ const Gallery = () => {
   };
 
   const removeMovie = (id) => {
+    const confirmDelete = window.confirm("Do you really want to delete?");
+    if(!confirmDelete) return;
     movieRef.current = movieRef.current.filter((m) => m.id !== id);
     sortAndFilter();
   };

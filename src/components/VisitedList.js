@@ -1,7 +1,6 @@
 const VisitedList = ({ visited }) => {
   const toggleFullName = (e) => {
     const fullName = e.target.getAttribute("data-name");
-    console.log(fullName, e.target.textContent);
     if (fullName.length > 20) {
       if (e.target.textContent === fullName) {
         e.target.textContent = `${fullName.substr(0, 19)}...`;
@@ -9,7 +8,6 @@ const VisitedList = ({ visited }) => {
       }
     }
     e.target.textContent = fullName;
-    return;
   };
   const trimMovieName = (name) => {
     if (name.length > 20) {
