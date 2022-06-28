@@ -7,7 +7,7 @@ import "../css/movie-detail.css";
 const {MOVIE_DETAIL,MOVIE_API} = GET_VALUES;
 
 const MovieDetail = () => {
-  const { movieState } = useContext(MovieContext);
+  const { movieState,currentVisitRef } = useContext(MovieContext);
   const [details, setDetails] = useState(null);
   const params = useParams();
   const movieID = Number(params.id);  
@@ -15,8 +15,9 @@ const MovieDetail = () => {
   const genres = movie.genre.split("|");
   let colorRate = Number(movie.rating) > 50 ? "rate-grey" : "rate-pale";
   colorRate = Number(movie.rating) >= 85 ? "rate-red" : colorRate;
-  sessionStorage.setItem("page", movie.name);
-
+  //sessionStorage.setItem("page", movie.name);
+  currentVisitRef.current = movie.name;
+  console.log("params", params)
   useEffect(()=>{
     const url = `${MOVIE_DETAIL}${movieID}${MOVIE_API}`;
     fetch(url)

@@ -15,9 +15,10 @@ export const MovieProvider = ({ children }) => {
   const tagsRef = useRef([]);
   const sortTypeRef = useRef(null);
   const visitedRef = useRef([]);
+  const currentVisitRef = useRef(null)
  
   return (
-    <MovieContext.Provider value={{ movieRef, tagsRef, visitedRef, sortTypeRef, movieState, movieDispatch }}>
+    <MovieContext.Provider value={{ movieRef, tagsRef, visitedRef, currentVisitRef, sortTypeRef, movieState, movieDispatch }}>
       {children}
     </MovieContext.Provider>
   );

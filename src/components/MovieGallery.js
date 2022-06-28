@@ -10,7 +10,7 @@ const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM} = GET_VALUES
 
 const Gallery = () => {  
   const [moviename, setMoviename] = useState("");  
-  const { movieRef, tagsRef, visitedRef,sortTypeRef, movieDispatch, movieState } =
+  const { movieRef, tagsRef, visitedRef, currentVisitRef, sortTypeRef, movieDispatch, movieState } =
     useContext(MovieContext);
 
   const movieSearch = (e) => {
@@ -128,14 +128,14 @@ const Gallery = () => {
   }, [moviename]);
 
   console.log("rendered gallery", sortTypeRef.current)
-  const visitedPage = sessionStorage.getItem("page") || "";
+  const visitedPage = currentVisitRef.current || "";
   if (visitedPage) {
     const index = visitedRef.current.indexOf(visitedPage);
     if (index >= 0) {
       visitedRef.current.splice(index, 1);
     }
     visitedRef.current.push(visitedPage);
-    sessionStorage.removeItem("page");
+    currentVisitRef.current = null;
   }
   const noMovieText = movieRef.current.length && !movieState.movies.length ? "No Movies Found" : !movieRef.current.length ? "Loading..." : "";
 

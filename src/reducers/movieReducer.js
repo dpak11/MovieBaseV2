@@ -1,12 +1,10 @@
 
 const MovieListReducer = (state, action) => {  
     if(action.type === "LOAD"){
-      console.log("load reducer")
       return {movies: [...action.payload]}
     }
     if(action.type === "SORT_FILTER"){
       const {setFilters,sortParam,sortTypeRef} = action.payload;
-      console.log("Sort Filter Reducer")
       let mov = setFilters()
       let currentState = {...state}      
       if(sortParam){

@@ -15,7 +15,7 @@ const Movie = ({ movInfo, removeMovie, isvisited }) => {
   return (
     <div className={isvisited ? "movieBlock isChecked" : "movieBlock"}>
       <p style={{ textAlign: "center" }}>
-        <img src={`${movInfo.photos}`} alt="" />
+      <Link style={{ textDecoration: "none" }} to={`/details/${movInfo.id}`}><img src={`${movInfo.photos}`} alt="" /></Link>
       </p>
       <h3>
         <Link style={{ textDecoration: "none" }} to={`/details/${movInfo.id}`}>
