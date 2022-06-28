@@ -4,7 +4,13 @@ const MovieListReducer = (state, action) => {
       return {movies: [...action.payload]}
     }
     if(action.type === "SORT_FILTER"){
-      const {setFilters,sortParam,sortTypeRef} = action.payload;
+      return doSortAndFilter(state,action)      
+    }
+    return state;
+  }
+
+  function doSortAndFilter(state,{payload}){
+    const {setFilters,sortParam,sortTypeRef} = payload;
       let mov = setFilters()
       let currentState = {...state}      
       if(sortParam){
@@ -39,8 +45,7 @@ const MovieListReducer = (state, action) => {
       }
       currentState.movies = mov
       return currentState
-    }
-    return state;
   }
+  
 
   export default MovieListReducer;
