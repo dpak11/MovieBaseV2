@@ -7,14 +7,30 @@
 .detailStyle h1 {
   border-bottom: dotted 2px gray;
 }
+.detailStyle h1 + p {
+  position: relative;
+}
 .detailStyle > div{
   max-width: 80%;
 }
 .back-link{
-  font-size: .8em;
+  font-size: .8rem;
   padding-left: 100px;
 }
 .ratingText {
-  font-size: 2.4em;
+  /* font-size: 2.4em; */
+  position: absolute;
+  bottom: -12px;
+  left: -11px;
+  font-size: 1.5rem;
+  background: black;
+  width: 65px;
+  height: 65px;
+  color: red;
+  border-radius: 50%;
+  text-align: center;
+  display: inline-block;
+  line-height: 2.5em;
   font-weight: bold;
+  border: solid 2px rgba(255, 255, 255, 0.4);
 }

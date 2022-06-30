@@ -34,6 +34,7 @@ const MovieDetail = () => {
         <h1>{movie.name}</h1>
         <p>
           <img src={`https://image.tmdb.org/t/p/w500${details.poster_path}`} width="300" alt="" />
+          <span className={`${colorRate} ratingText`}>{movie.rating}%</span>
         </p>
         <p>
           Genre {genres.map((genre, i) => (
@@ -55,9 +56,9 @@ const MovieDetail = () => {
           {details.overview}
         </p>
         <p><a href={`https://www.imdb.com/title/${details.imdb_id}/`} target="_blank">IMDB</a></p>
-        <p>
+        {/* <p>
           <span className={`${colorRate} ratingText`}>{movie.rating}%</span>
-        </p>
+        </p> */}
         
       </div>
     </div>)
