@@ -27,6 +27,7 @@ const Gallery = () => {
   };
 
   const getTop200 = () => {
+    movieRef.current = []
     topMoviesRef.current.style.color = "#d0f11d"
     randomMoviesRef.current.style.color = "#aeaef0"
     fetchData({type:"top200"})
@@ -39,15 +40,11 @@ const Gallery = () => {
     fetch(`${TOP_RATED_MOVIE}1`)
     .then(data => data.json())
     .then(resp => {
-      generateRandomPages(resp.total_pages)
-    });
-
-    function generateRandomPages(total){
-      let list = Array(20).fill(0).map(() => Math.ceil(Math.random()*total))
+      let list = Array(20).fill(0).map(() => Math.ceil(Math.random()*Number(resp.total_pages)))
       let rndList =  [...new Set(list)]
       let rndPages = rndList.splice(0,10)
       fetchData({type:"random",randomPageList:rndPages})
-    }
+    });
   }
 
   const removeMovie = (id) => {
