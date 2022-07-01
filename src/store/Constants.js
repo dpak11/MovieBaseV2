@@ -1,8 +1,8 @@
 const API_CALLS_NUM = 10
+const MOVIEDB_URL= "https://api.themoviedb.org/3"
 const API_KEY_MOVIE= "?api_key=0fec03f37874864d189b9e4e3c1eec79"
 const LANG_MOVIE_US= "&language=en-US"
 const MOVIE_API= `${API_KEY_MOVIE}${LANG_MOVIE_US}`
-const MOVIEDB_URL= "https://api.themoviedb.org/3"
 const MOVIE_DETAIL= `${MOVIEDB_URL}/movie/`
 const TOP_RATED_MOVIE= `${MOVIEDB_URL}/movie/top_rated${MOVIE_API}&page=`
 const MOVIE_DISCOVER= `${MOVIEDB_URL}/discover/movie${API_KEY_MOVIE}&with_origin_country=IN&with_original_language=`

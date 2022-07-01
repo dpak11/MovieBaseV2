@@ -1,5 +1,5 @@
 import { MovieContext } from "../store/MovieContext";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import SearchPanel from "./SearchPanel";
 import VisitedList from "./VisitedList";
 import Movie from "./Movie";
@@ -9,7 +9,9 @@ import "../css/movie-gallery.css";
 const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM} = GET_VALUES
 
 const Gallery = () => {  
-  const [moviename, setMoviename] = useState("");  
+  const [moviename, setMoviename] = useState(""); 
+  const topMoviesRef = useRef(); 
+  const randomMoviesRef = useRef(); 
   const { movieRef, tagsRef, visitedRef, currentVisitRef, sortTypeRef, movieDispatch, movieState } =
     useContext(MovieContext);
 
@@ -24,11 +26,35 @@ const Gallery = () => {
     );
   };
 
+  const getTop200 = () => {
+    topMoviesRef.current.style.color = "#d0f11d"
+    randomMoviesRef.current.style.color = "#aeaef0"
+    fetchData({type:"top200"})
+  }
+
+  const getRandomMovies = () =>{
+    movieRef.current = [];
+    topMoviesRef.current.style.color = "#aeaef0"
+    randomMoviesRef.current.style.color = "#d0f11d"
+    fetch(`${TOP_RATED_MOVIE}1`)
+    .then(data => data.json())
+    .then(resp => {
+      generateRandomPages(resp.total_pages)
+    });
+
+    function generateRandomPages(total){
+      let list = Array(20).fill(0).map(() => Math.ceil(Math.random()*total))
+      let rndList =  [...new Set(list)]
+      let rndPages = rndList.splice(0,10)
+      fetchData({type:"random",randomPageList:rndPages})
+    }
+  }
+
   const removeMovie = (id) => {
     const confirmDelete = window.confirm("Do you really want to delete?");
     if(!confirmDelete) return;
     movieRef.current = movieRef.current.filter((m) => m.id !== id);
-    sortAndFilter();
+    sortFilter();
   };
 
   const selectGenre = (genre, target) => {
@@ -39,7 +65,7 @@ const Gallery = () => {
       tagsRef.current.push(genre);
     }
     target.classList.toggle("tag-selected");
-    sortAndFilter();
+    sortFilter();
   };
 
   const getTaggedMovieList = (movList) => {
@@ -76,10 +102,11 @@ const Gallery = () => {
    });
   }
  
-  const callMovieAPI = async (apiCalls) => {
+  const callMovieAPI = async (apiCalls,params) => {
     let apiPromises = [];
-    for(let i=1;i<=apiCalls;i++){
-      apiPromises[i-1] = fetch(`${TOP_RATED_MOVIE}${i}`);
+    for(let i=1;i<=apiCalls;i++){      
+      let page = params.type==="random" ? params.randomPageList[i-1] : i;
+      apiPromises[i-1] = fetch(`${TOP_RATED_MOVIE}${page}`);
     }    
     const allPromises = await Promise.all(apiPromises)
     let count= 0;
@@ -97,18 +124,18 @@ const Gallery = () => {
     })
   }
  
-  const fetchData = async () => {
-    await callMovieAPI(API_CALLS_NUM)
+  const fetchData = async (param) => {
+    await callMovieAPI(API_CALLS_NUM,param)
     movieDispatch({type:"LOAD", payload:movieRef.current})  
   };
 
   
-  const sortAndFilter = (params=null) => {
-    const getTrueSort = () => {
+  const sortFilter = (params=null) => {
+    const getSortParam = () => {
       if(params) return params;
       return sortTypeRef.current?.name?"name":sortTypeRef.current?.rating?"rating":sortTypeRef.current?.release?"release":null
     };    
-    const sortParam = getTrueSort()    
+    const sortParam = getSortParam()    
     movieDispatch({type:"SORT_FILTER", payload:{
       sortParam, setFilters, sortTypeRef
     }})  
@@ -117,14 +144,15 @@ const Gallery = () => {
   
   useEffect(() => {
     if (!movieRef.current.length) {
-      fetchData();
-    } else {   
-      sortAndFilter() 
+      console.log("OnMount fetchData()")
+      fetchData({type:"top200"});
+    } else {  
+      sortFilter() 
     }
   }, []);
 
   useEffect(() => {
-    sortAndFilter();
+    sortFilter();
   }, [moviename]);
 
   console.log("rendered gallery", sortTypeRef.current)
@@ -142,12 +170,12 @@ const Gallery = () => {
   return (
     <div className="galleryStyle">
       <h1>Movie Gallery ({movieState.movies.length})</h1>
-
+      <p><span ref={topMoviesRef} onClick={getTop200}>Top 200</span> | <span ref={randomMoviesRef} onClick={getRandomMovies}>Random 200</span></p>
       <SearchPanel
         moviename={moviename}
         movieSearch={movieSearch}
         sortType={movieState.sortType}
-        sortby={sortAndFilter}
+        sortby={sortFilter}
         selectGenre={selectGenre}
       />      
       
