@@ -11,9 +11,16 @@ const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM} = GET_VALUES
 const Gallery = () => {  
   const [moviename, setMoviename] = useState(""); 
   const topMoviesRef = useRef(); 
-  const randomMoviesRef = useRef(); 
+  const randomMoviesRef = useRef();
   const { movieRef, tagsRef, visitedRef, currentVisitRef, sortTypeRef, movieDispatch, movieState } =
     useContext(MovieContext);
+
+
+  const resetRefs = () =>{
+    movieRef.current = [];
+    tagsRef.current = []
+    sortTypeRef.current = []
+  } 
 
   const movieSearch = (e) => {
     setMoviename(e.target.value);
@@ -27,14 +34,14 @@ const Gallery = () => {
   };
 
   const getTop200 = () => {
-    movieRef.current = []
+    resetRefs();
     topMoviesRef.current.style.color = "#d0f11d"
     randomMoviesRef.current.style.color = "#aeaef0"
     fetchData({type:"top200"})
   }
 
   const getRandomMovies = () =>{
-    movieRef.current = [];
+    resetRefs();
     topMoviesRef.current.style.color = "#aeaef0"
     randomMoviesRef.current.style.color = "#d0f11d"
     fetch(`${TOP_RATED_MOVIE}1`)
