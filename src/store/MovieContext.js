@@ -5,6 +5,7 @@ export const MovieContext = createContext();
 
 const initState = {
   movies:[],
+  mode:"top200",
   sortType:{
     name:false,
     rating:false,

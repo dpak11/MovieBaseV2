@@ -10,8 +10,6 @@ const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM} = GET_VALUES
 
 const Gallery = () => {  
   const [moviename, setMoviename] = useState(""); 
-  const topMoviesRef = useRef(); 
-  const randomMoviesRef = useRef();
   const { movieRef, tagsRef, visitedRef, currentVisitRef, sortTypeRef, movieDispatch, movieState } =
     useContext(MovieContext);
 
@@ -35,15 +33,11 @@ const Gallery = () => {
 
   const getTop200 = () => {
     resetRefs();
-    topMoviesRef.current.style.color = "#d0f11d"
-    randomMoviesRef.current.style.color = "#aeaef0"
     fetchData({type:"top200"})
   }
 
   const getRandomMovies = () =>{
     resetRefs();
-    topMoviesRef.current.style.color = "#aeaef0"
-    randomMoviesRef.current.style.color = "#d0f11d"
     fetch(`${TOP_RATED_MOVIE}1`)
     .then(data => data.json())
     .then(resp => {
@@ -130,7 +124,13 @@ const Gallery = () => {
  
   const fetchData = async (param) => {
     await callMovieAPI(API_CALLS_NUM,param)
-    movieDispatch({type:"LOAD", payload:movieRef.current})  
+    movieDispatch({
+      type:"LOAD", 
+      payload:{
+        movielist:movieRef.current, 
+        listType:param.type
+      }
+    })
   };
 
   
@@ -148,8 +148,7 @@ const Gallery = () => {
   
   useEffect(() => {
     if (!movieRef.current.length) {
-      console.log("OnMount fetchData()")
-      fetchData({type:"top200"});
+      getTop200();
     } else {  
       sortFilter() 
     }
@@ -174,7 +173,13 @@ const Gallery = () => {
   return (
     <div className="galleryStyle">
       <h1>Movie Gallery ({movieState.movies.length})</h1>
-      <p><span ref={topMoviesRef} onClick={getTop200}>Top 200</span> | <span ref={randomMoviesRef} onClick={getRandomMovies}>Random 200</span></p>
+      <p>
+        <span className={movieState.mode === "top200" ? "selected" : ""} onClick={getTop200}>
+          Top 200
+        </span> | <span className={movieState.mode === "random" ? "selected" : ""} onClick={getRandomMovies}>
+          Random 200
+        </span>
+      </p>
       <SearchPanel
         moviename={moviename}
         movieSearch={movieSearch}

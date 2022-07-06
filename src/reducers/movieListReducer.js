@@ -1,7 +1,8 @@
 
 const MovieListReducer = (state, action) => {  
     if(action.type === "LOAD"){
-      return {movies: [...action.payload]}
+      const {movielist, listType} = action.payload
+      return {movies: [...movielist], mode:listType}
     }
     if(action.type === "SORT_FILTER"){
       return doSortAndFilter(state,action)      
