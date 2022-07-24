@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import '../css/movie.css';
+//import '../css/movie.css';
+import styles from '../css/Movie.module.css'
 
 const Movie = ({ movInfo, removeMovie, isvisited }) => {
   const deleteMovie = (e) => {
@@ -10,10 +11,11 @@ const Movie = ({ movInfo, removeMovie, isvisited }) => {
   const genres = movInfo.genre.split("|");
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const date = movInfo.release.split("-");
-  const release = `${months[Number(date[1])-1]} ${date[0]}`;  
+  const release = `${months[Number(date[1])-1]} ${date[0]}`;
+  const isVisited = isvisited ? styles.isChecked : ""; 
 
   return (
-    <div className={isvisited ? "movieBlock isChecked" : "movieBlock"}>
+    <div className={`${isVisited} ${styles.movieBlock}`}>
       <p style={{ textAlign: "center" }}>
       <Link style={{ textDecoration: "none" }} to={`/details/${movInfo.id}`}><img src={`${movInfo.photos}`} alt="" /></Link>
       </p>
@@ -22,9 +24,9 @@ const Movie = ({ movInfo, removeMovie, isvisited }) => {
           {movInfo.name}
         </Link>
       </h3>
-      <p className="genre-block">
+      <p className={`${styles.genreBlock}`}>
         {genres.map((genre, i) => (
-          <span key={i} className="tags">
+          <span key={i} className={`${styles.tags}`}>
             {genre}
           </span>
         ))}
@@ -34,7 +36,7 @@ const Movie = ({ movInfo, removeMovie, isvisited }) => {
       <p>{Number(movInfo.rating)}%</p>
       <p>
         <button
-          className="deleteBtn"
+          className={`${styles.deleteBtn}`}
           data-id={movInfo.id}
           onClick={deleteMovie}
         >
