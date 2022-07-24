@@ -15,7 +15,6 @@ const MovieDetail = () => {
   const genres = movie.genre.split("|");
   let colorRate = Number(movie.rating) > 50 ? "rate-grey" : "rate-pale";
   colorRate = Number(movie.rating) >= 85 ? "rate-red" : colorRate;
-  //sessionStorage.setItem("page", movie.name);
   currentVisitRef.current = movie.name;
   console.log("params", params)
   useEffect(()=>{
@@ -37,7 +36,7 @@ const MovieDetail = () => {
           <span className={`${colorRate} ratingText`}>{movie.rating}%</span>
         </p>
         <p>
-          Genre {genres.map((genre, i) => (
+          {genres.map((genre, i) => (
             <span key={i} className="tags" style={{ marginRight: "10px" }}>
                {genre}
             </span>

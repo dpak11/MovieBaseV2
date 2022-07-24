@@ -12,6 +12,10 @@
 }
 .detailStyle > div{
   max-width: 80%;
+  margin-bottom: 50px
+}
+.detailStyle h1+p{
+  margin-bottom: 80px
 }
 .back-link{
   font-size: .8rem;
