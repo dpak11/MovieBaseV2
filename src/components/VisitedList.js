@@ -1,3 +1,5 @@
+import styles from '../css/visited-list.module.css'
+
 const VisitedList = ({ visited }) => {
   const toggleFullName = (e) => {
     const fullName = e.target.getAttribute("data-name");
@@ -21,7 +23,7 @@ const VisitedList = ({ visited }) => {
         <span
           onClick={toggleFullName}
           data-name={`${page}`}
-          className="visitedStyle"
+          className={styles.visitedStyle}
           key={i}
         >
           {trimMovieName(page)}

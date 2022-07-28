@@ -1,7 +1,7 @@
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
-import Gallery from "./components/MovieGallery";
+import MovieGallery from "./components/MovieGallery";
 import MovieDetail from "./components/MovieDetail";
 import { MovieProvider } from "./store/MovieContext";
 import {
@@ -22,7 +22,7 @@ function App() {
           <div>
             <Routes>
               <Route path="/" exact element={<Home />} />
-              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/gallery" element={<MovieGallery />} />
               <Route path="/details/:id" element={<MovieDetail />} />
               <Route path="/*" element={<Navigate to="/" />} />
             </Routes>

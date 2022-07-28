@@ -4,11 +4,11 @@ import SearchPanel from "./SearchPanel";
 import VisitedList from "./VisitedList";
 import Movie from "./Movie";
 import {GET_VALUES} from "../store/Constants";
-import "../css/movie-gallery.css";
+import mystyles from "../css/movie-gallery.module.css";
 
 const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM} = GET_VALUES
 
-const Gallery = () => {  
+const MovieGallery = () => {  
   const [moviename, setMoviename] = useState(""); 
   const { movieRef, tagsRef, visitedRef, currentVisitRef, sortTypeRef, movieDispatch, movieState } =
     useContext(MovieContext);
@@ -171,12 +171,12 @@ const Gallery = () => {
   const noMovieText = movieRef.current.length && !movieState.movies.length ? "No Movies Found" : !movieRef.current.length ? "Loading..." : "";
 
   return (
-    <div className="galleryStyle">
-      <h1>Movie Gallery ({movieState.movies.length})</h1>
+    <div className={mystyles.galleryStyle}>
+      <h1 className={mystyles.gallery}>Movie Gallery ({movieState.movies.length})</h1>
       <p>
-        <span className={movieState.mode === "top200" ? "selected" : ""} onClick={getTop200}>
+        <span className={movieState.mode === "top200" ? mystyles.selected : ""} onClick={getTop200}>
           Top 200
-        </span> | <span className={movieState.mode === "random" ? "selected" : ""} onClick={getRandomMovies}>
+        </span> | <span className={movieState.mode === "random" ? mystyles.selected : ""} onClick={getRandomMovies}>
           Random 200
         </span>
       </p>
@@ -192,7 +192,7 @@ const Gallery = () => {
 
       <hr style={{ borderColor: "grey" }} />
 
-      <div className="tileStyle">
+      <div className={mystyles.tileStyle}>
         {movieState.movies.length ? (
           movieState.movies.map((mov, i) => (
             <Movie
@@ -212,4 +212,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default MovieGallery;

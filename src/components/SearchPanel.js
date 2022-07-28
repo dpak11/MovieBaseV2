@@ -1,6 +1,6 @@
-import '../css/search-panel.css';
 import { MovieContext } from "../store/MovieContext";
 import { useContext } from "react";
+import styles from '../css/search-panel.module.css';
 
 const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre}) => { 
   const {tagsRef,movieRef} = useContext(MovieContext);
@@ -14,43 +14,43 @@ const SearchPanel = ({moviename,movieSearch,sortType, sortby, selectGenre}) => {
     <>
       <p style={{ textAlign: "center" }}>
         <input
-          className="searchStyle"
+          className={styles.searchStyle}
           type="text"
           value={moviename}
           onChange={(e) => movieSearch(e)}
           placeholder="Type movie name..."
         />
       </p>
-      <p className="sortSection">
+      <p className={styles.sortSection}>
         <label>Sort By :</label>
         <span
-          className={sortType?.rating ? "active" : ""}
+          className={sortType?.rating ? `${styles.active}` : ""}
           onClick={() => sortby("rating")}
         >
           Rating
         </span>
         &nbsp; | &nbsp;
         <span
-          className={sortType?.name ? "active" : ""}
+          className={sortType?.name ? `${styles.active}` : ""}
           onClick={() => sortby("name")}
         >
           Name
         </span>
         &nbsp; | &nbsp;
         <span
-          className={sortType?.release ? "active" : ""}
+          className={sortType?.release ? `${styles.active}` : ""}
           onClick={() => sortby("release")}
         >
           Release Date
         </span>
       </p>
-      <p className="genreListing">
+      <p className={styles.genreListing}>
         {allGenres &&
           allGenres.map((genre, i) => (
             <span
               key={i}
               onClick={(e) => selectGenre(genre, e.target)}
-              className={tagsRef.current.includes(genre)?"tag-selected genreStyle":"genreStyle"}
+              className={tagsRef.current.includes(genre)? `${styles.tagSelected} ${styles.genreStyle}`: styles.genreStyle}
             >
               {genre}
             </span>

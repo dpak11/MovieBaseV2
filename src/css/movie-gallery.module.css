@@ -4,24 +4,24 @@
   font-size: 0.9em;
   padding: 20px;
 }
-.galleryStyle h1 {
+ h1.gallery {
   color: rgb(119, 216, 199);
   text-align: center;
   margin-bottom: 0;
 }
 
-.galleryStyle h1 + p{
+h1.gallery + p{
   text-align: center;
   margin-top: 5px;  
   color: #aeaef0;
 }
-.galleryStyle h1 + p span{
+h1.gallery + p span{
   display: inline-block;
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
 }
-.galleryStyle h1 + p span.selected{
+h1.gallery + p span.selected{
   color: #d0f11d;
   text-decoration: none;
 }
@@ -32,22 +32,4 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-}
-
-span.tag-selected {
-  background-color: yellow !important;
-  color: #000 !important;
-}
-
-
-.visitedStyle {
-  color: #b8c1ea;
-  padding: 2px 5px;
-  border: dashed 1px rgb(184, 193, 234);
-  margin-right: 5px;
-  border-top: none;
-  border-radius: 5px;
-  border-left: none;
-  display: inline-block;
-  cursor: default;
 }

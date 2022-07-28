@@ -1,0 +1,12 @@
+
+.visitedStyle {
+  color: #b8c1ea;
+  padding: 2px 5px;
+  border: dashed 1px rgb(184, 193, 234);
+  margin-right: 5px;
+  border-top: none;
+  border-radius: 5px;
+  border-left: none;
+  display: inline-block;
+  cursor: default;
+}

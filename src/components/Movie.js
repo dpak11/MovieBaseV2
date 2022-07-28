@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-//import '../css/movie.css';
 import styles from '../css/Movie.module.css'
 
 const Movie = ({ movInfo, removeMovie, isvisited }) => {
@@ -26,7 +25,7 @@ const Movie = ({ movInfo, removeMovie, isvisited }) => {
       </h3>
       <p className={`${styles.genreBlock}`}>
         {genres.map((genre, i) => (
-          <span key={i} className={`${styles.tags}`}>
+          <span key={i} className="tags">
             {genre}
           </span>
         ))}

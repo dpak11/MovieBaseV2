@@ -39,4 +39,7 @@
     font-weight: bold;
     color: #d0f11d;
   }
-  
+  span.tagSelected {
+    background-color: yellow !important;
+    color: #000 !important;
+  }

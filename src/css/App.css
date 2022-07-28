@@ -49,3 +49,10 @@ body {
 .rate-red {
   color: red;
 }
+
+.tags {
+  border: 1px solid #615b5b;
+  padding: 3px 5px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
