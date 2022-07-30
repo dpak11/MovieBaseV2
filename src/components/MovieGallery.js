@@ -6,7 +6,7 @@ import Movie from "./Movie";
 import {GET_VALUES} from "../store/Constants";
 import mystyles from "../css/movie-gallery.module.css";
 
-const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM} = GET_VALUES
+const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM, ADULT_ALL,ADULT_INDIA} = GET_VALUES
 
 const MovieGallery = () => {  
   const [moviename, setMoviename] = useState(""); 
@@ -34,6 +34,11 @@ const MovieGallery = () => {
   const getTop200 = () => {
     resetRefs();
     fetchData({type:"top200"})
+  }
+
+  const getAdultMovies = (loc) => {
+    resetRefs();
+    fetchData({type:`adult_${loc}`})
   }
 
   const getRandomMovies = () =>{
@@ -103,8 +108,8 @@ const MovieGallery = () => {
   const callMovieAPI = async (apiCalls,params) => {
     let apiPromises = [];
     for(let i=1;i<=apiCalls;i++){      
-      let page = params.type==="random" ? params.randomPageList[i-1] : i;
-      apiPromises[i-1] = fetch(`${TOP_RATED_MOVIE}${page}`);
+      let page = params.type ==="random" ? `${TOP_RATED_MOVIE}${params.randomPageList[i-1]}` : params.type ==="adult_india" ? `${ADULT_INDIA}${i}` : params.type ==="adult_all" ? `${ADULT_ALL}${i}` : `${TOP_RATED_MOVIE}${i}`;
+      apiPromises[i-1] = fetch(page);
     }    
     const allPromises = await Promise.all(apiPromises)
     let count= 0;
@@ -178,6 +183,10 @@ const MovieGallery = () => {
           Top 200
         </span> | <span className={movieState.mode === "random" ? mystyles.selected : ""} onClick={getRandomMovies}>
           Random 200
+        </span> | <span className={movieState.mode === "adult" ? mystyles.selected : ""} onClick={() => getAdultMovies("all")}>
+          18+
+        </span> | <span className={movieState.mode === "adult_india" ? mystyles.selected : ""} onClick={() => getAdultMovies("india")}>
+          18+(India)
         </span>
       </p>
       <SearchPanel

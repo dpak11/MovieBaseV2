@@ -55,10 +55,6 @@ const MovieDetail = () => {
           {details.overview}
         </p>
         <p><a href={`https://www.imdb.com/title/${details.imdb_id}/`} target="_blank">IMDB</a></p>
-        {/* <p>
-          <span className={`${colorRate} ratingText`}>{movie.rating}%</span>
-        </p> */}
-        
       </div>
     </div>)
   );

@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import styles from '../css/visited-list.module.css'
 
-const VisitedList = ({ visited }) => {
+const VisitedList = memo(({ visited }) => {
   const toggleFullName = (e) => {
     const fullName = e.target.getAttribute("data-name");
     if (fullName.length > 20) {
@@ -31,6 +32,6 @@ const VisitedList = ({ visited }) => {
       ))}
     </p>
   );
-};
+});
 
 export default VisitedList
