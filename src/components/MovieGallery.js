@@ -43,14 +43,10 @@ const MovieGallery = () => {
 
   const getRandomMovies = () =>{
     resetRefs();
-    fetch(`${TOP_RATED_MOVIE}1`)
-    .then(data => data.json())
-    .then(resp => {
-      let list = Array(20).fill(0).map(() => Math.ceil(Math.random()*Number(resp.total_pages)))
-      let rndList =  [...new Set(list)]
-      let rndPages = rndList.splice(0,10)
-      fetchData({type:"random",randomPageList:rndPages})
-    });
+    let list = Array(20).fill(0).map(() => Math.ceil(Math.random()*500))
+    let rndList =  [...new Set(list)]
+    let rndPages = rndList.splice(0,10)
+    fetchData({type:"random",randomPageList:rndPages})
   }
 
   const removeMovie = (id) => {
@@ -93,9 +89,13 @@ const MovieGallery = () => {
 
   }
 
-  const dataRestructure = (results) => {   
-   return results.map((item) => {
+  const dataRestructure = (results) => { 
+   let emptyGenresIndex = [];  // indexes of Movies that have no genres
+   let destructured = results.map((item, i) => {
     const {id,title:name,release_date:release,poster_path,genre_ids:genre,vote_average} = item;
+    if(genre.length === 0){
+      emptyGenresIndex.push(i);
+    }
     return {
       id,name,release,
       photos:`${THUMBNAIL_PATH}${poster_path}`,
@@ -103,6 +103,12 @@ const MovieGallery = () => {
       rating:Number(vote_average)*10
     }    
    });
+   
+   emptyGenresIndex.reverse();
+   for(let index of emptyGenresIndex){
+    destructured.splice(index,1) // remove movies that do not have genres
+   }
+   return destructured;
   }
  
   const callMovieAPI = async (apiCalls,params) => {
@@ -183,7 +189,7 @@ const MovieGallery = () => {
           Top 200
         </span> | <span className={movieState.mode === "random" ? mystyles.selected : ""} onClick={getRandomMovies}>
           Random 200
-        </span> | <span className={movieState.mode === "adult" ? mystyles.selected : ""} onClick={() => getAdultMovies("all")}>
+        </span> | <span className={movieState.mode === "adult_all" ? mystyles.selected : ""} onClick={() => getAdultMovies("all")}>
           18+
         </span> | <span className={movieState.mode === "adult_india" ? mystyles.selected : ""} onClick={() => getAdultMovies("india")}>
           18+(India)
