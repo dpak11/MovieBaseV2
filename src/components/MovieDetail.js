@@ -1,7 +1,7 @@
 import { Link,useParams } from "react-router-dom";
 import { MovieContext } from "../store/MovieContext";
 import { useContext,useEffect,useState } from "react";
-import {GET_VALUES} from "../store/Constants";
+import {GET_VALUES} from "../Constants";
 import "../css/movie-detail.css";
 
 const {MOVIE_DETAIL,MOVIE_API} = GET_VALUES;
@@ -16,7 +16,7 @@ const MovieDetail = () => {
   let colorRate = Number(movie.rating) > 50 ? "rate-grey" : "rate-pale";
   colorRate = Number(movie.rating) >= 85 ? "rate-red" : colorRate;
   currentVisitRef.current = movie.name;
-  console.log("params", params)
+  //console.log("params", params)
   useEffect(()=>{
     const url = `${MOVIE_DETAIL}${movieID}${MOVIE_API}`;
     fetch(url)

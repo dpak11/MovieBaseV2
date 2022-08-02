@@ -3,7 +3,7 @@ import { useContext, useState, useEffect, useRef } from "react";
 import SearchPanel from "./SearchPanel";
 import VisitedList from "./VisitedList";
 import Movie from "./Movie";
-import {GET_VALUES} from "../store/Constants";
+import {GET_VALUES} from "../Constants";
 import mystyles from "../css/movie-gallery.module.css";
 
 const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM, ADULT_ALL,ADULT_INDIA} = GET_VALUES
@@ -169,7 +169,7 @@ const MovieGallery = () => {
     sortFilter();
   }, [moviename]);
 
-  console.log("rendered gallery", sortTypeRef.current)
+  //console.log("rendered gallery", sortTypeRef.current)
   const visitedPage = currentVisitRef.current || "";
   if (visitedPage) {
     const index = visitedRef.current.indexOf(visitedPage);

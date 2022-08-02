@@ -15,5 +15,4 @@ export const GET_VALUES = {API_CALLS_NUM, API_KEY_MOVIE,LANG_MOVIE_US,MOVIE_API,
 
 
 // https://api.themoviedb.org/3/discover/movie?api_key=0fec03f37874864d189b9e4e3c1eec79&language=en-US&sort_by=popularity.desc&certification_country=US&certification=NC-17&certification.gte=R&page=
-
 // https://developers.themoviedb.org/3/certifications/get-movie-certifications
