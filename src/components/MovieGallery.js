@@ -81,8 +81,8 @@ const MovieGallery = () => {
   
   const getGenres = (ids) => {
     let list = [];
-    for (let i in ids) {
-        let {name} = GENRE_LIST.find((item)=>item.id === ids[i])
+    for (let id of ids) {
+        let {name} = GENRE_LIST.find((item)=>item.id === id)
         list.push(name)
     }
     return list.join("|")
@@ -92,14 +92,14 @@ const MovieGallery = () => {
   const dataRestructure = (results) => { 
    let emptyGenresIndex = [];  // indexes of Movies that have no genres
    let destructured = results.map((item, i) => {
-    const {id,title:name,release_date:release,poster_path,genre_ids:genre,vote_average} = item;
-    if(genre.length === 0){
+    const {id,title:name,release_date:release,poster_path,genre_ids:genreIDs,vote_average} = item;
+    if(genreIDs.length === 0){
       emptyGenresIndex.push(i);
     }
     return {
       id,name,release,
       photos:`${THUMBNAIL_PATH}${poster_path}`,
-      genre:getGenres(genre),
+      genre:getGenres(genreIDs),
       rating:Number(vote_average)*10
     }    
    });
