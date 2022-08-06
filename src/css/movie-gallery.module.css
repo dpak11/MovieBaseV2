@@ -10,20 +10,32 @@
   margin-bottom: 0;
 }
 
-h1.gallery + p{
+h1.gallery + div{
   text-align: center;
   margin-top: 5px;  
   color: #aeaef0;
 }
-h1.gallery + p span{
+h1.gallery + div p{
+  margin: 0 550px 4px;
+  border: 1px solid #b09191;
+  padding: 6px 0;
+  border-radius: 8px;
+  background-color: #00000030;
+  min-width: 240px;
+}
+h1.gallery + div span{
   display: inline-block;
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
 }
-h1.gallery + p span.selected{
+h1.gallery + div span.selected{
   color: #d0f11d;
   text-decoration: none;
+}
+h1.gallery + div p + span{
+  text-decoration: none;
+  color: #fff;
 }
 
 .tileStyle {
