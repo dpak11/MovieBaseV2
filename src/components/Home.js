@@ -17,16 +17,15 @@ const Home = () => {
 
   return (
     <div style={homestyle}>
-      <h1>Welcome to React Movie Base (V2.0)</h1>
+      <h1>Welcome to React Movie Base (V2)</h1>
       <p>
         <li>
-          The Gallery page will load Top 200 movies from the MovieDB API{" "}
-          <span style={apilink}>
+          The Gallery page will load Top 200 movies by default from API <span style={apilink}>
           https://api.themoviedb.org
-          </span>
+          </span> 
         </li>
         <li>
-         You can then Filter through the Movies by genre,name,rating, date,  or all combined.
+         You can then Filter through the Movies by genre, name, rating, date, or all combined.
         </li>
       </p>
     </div>

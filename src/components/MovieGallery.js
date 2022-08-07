@@ -6,7 +6,7 @@ import Movie from "./Movie";
 import {GET_VALUES} from "../Constants";
 import mystyles from "../css/movie-gallery.module.css";
 
-const { THUMBNAIL_PATH,TOP_RATED_MOVIE,GENRE_LIST, API_CALLS_NUM, ADULT_USA ,ADULT_INDIA,ONLY_INDIA,ADULT_UK} = GET_VALUES
+const { THUMBNAIL_PATH, TOP_RATED_MOVIE, GENRE_LIST, API_CALLS_NUM, ADULT_USA, ADULT_INDIA, ONLY_INDIA, ADULT_UK} = GET_VALUES
 
 const MovieGallery = () => {  
   const [moviename, setMoviename] = useState(""); 
@@ -50,8 +50,8 @@ const MovieGallery = () => {
     resetRefs();
     let list = Array(20).fill(0).map(() => Math.ceil(Math.random()*500))
     let rndList =  [...new Set(list)]
-    let rndPages = rndList.splice(0,10)
-    fetchData({type:"random",randomPageList:rndPages})
+    let randomPages = rndList.splice(0,10)
+    fetchData({type:"random",randomPages})
   }
 
   const removeMovie = (id) => {
@@ -119,7 +119,7 @@ const MovieGallery = () => {
   const callMovieAPI = async (apiCalls,params) => {
     let apiPromises = [];
     for(let i=1;i<=apiCalls;i++){      
-      const page = params.type ==="random" ? `${TOP_RATED_MOVIE}${params.randomPageList[i-1]}` : params.type ==="adult_india" ? `${ADULT_INDIA}${i}` : params.type ==="only_india" ? `${ONLY_INDIA}${i}` : params.type ==="adult_usa" ? `${ADULT_USA}${i}` : params.type ==="adult_uk" ? `${ADULT_UK}${i}` : `${TOP_RATED_MOVIE}${i}`;
+      const page = params.type ==="random" ? `${TOP_RATED_MOVIE}${params.randomPages[i-1]}` : params.type ==="adult_india" ? `${ADULT_INDIA}${i}` : params.type ==="only_india" ? `${ONLY_INDIA}${i}` : params.type ==="adult_usa" ? `${ADULT_USA}${i}` : params.type ==="adult_uk" ? `${ADULT_UK}${i}` : `${TOP_RATED_MOVIE}${i}`;
       apiPromises[i-1] = fetch(page);
     }    
     const allPromises = await Promise.all(apiPromises)
@@ -174,8 +174,7 @@ const MovieGallery = () => {
     sortFilter();
   }, [moviename]);
 
-  //console.log("rendered gallery", sortTypeRef.current)
-  const visitedPage = currentVisitRef.current || "";
+    const visitedPage = currentVisitRef.current || "";
   if (visitedPage) {
     const index = visitedRef.current.indexOf(visitedPage);
     if (index >= 0) {
@@ -195,11 +194,11 @@ const MovieGallery = () => {
             Top 200
           </span> | <span className={movieState.mode === "random" ? mystyles.selected : ""} onClick={getRandomMovies}>
             Random 200
-          </span> | <span className={movieState.mode === "only_india" ? mystyles.selected : ""} onClick={() => getIndianMovies()}>
+          </span> | <span className={movieState.mode === "only_india" ? mystyles.selected : ""} onClick={getIndianMovies}>
             Indian
           </span>
         </p>        
-        <span>18+ Movies:</span> <span className={movieState.mode === "adult_usa" ? mystyles.selected : ""} onClick={() => getAdultMovies("usa")}>
+        <span>18+ Movies &gt;</span> <span className={movieState.mode === "adult_usa" ? mystyles.selected : ""} onClick={() => getAdultMovies("usa")}>
           USA
         </span> | <span className={movieState.mode === "adult_uk" ? mystyles.selected : ""} onClick={() => getAdultMovies("uk")}>
           UK
