@@ -16,12 +16,12 @@ h1.gallery + div{
   color: #aeaef0;
 }
 h1.gallery + div p{
-  margin: 0 550px 4px;
-  border: 1px solid #b09191;
+  margin: 5px auto;
+  border: 1px solid #a27a7a;
   padding: 6px 0;
   border-radius: 8px;
-  background-color: #00000030;
-  min-width: 240px;
+  background-color: rgba(0, 0, 0, 0.08);
+  max-width: 16rem;
 }
 h1.gallery + div span{
   display: inline-block;
@@ -35,7 +35,8 @@ h1.gallery + div span.selected{
 }
 h1.gallery + div p + span{
   text-decoration: none;
-  color: #fff;
+  color: #d8d5d5;
+  font-size: .8rem;
 }
 
 .tileStyle {
