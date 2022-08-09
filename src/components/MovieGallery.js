@@ -6,7 +6,7 @@ import Movie from "./Movie";
 import {GET_VALUES} from "../Constants";
 import mystyles from "../css/movie-gallery.module.css";
 
-const { THUMBNAIL_PATH, TOP_RATED_MOVIE, GENRE_LIST, API_CALLS_NUM, ADULT_USA, ADULT_INDIA, ONLY_INDIA, ADULT_UK} = GET_VALUES
+const { THUMBNAIL_PATH, TOP_RATED_MOVIE, GENRE_LIST, API_CALLS_NUM, ADULT_USA, ADULT_INDIA, ONLY_INDIA, ONLY_TELUGU, ONLY_HINDI,ONLY_TAMIL, ADULT_UK} = GET_VALUES
 
 const MovieGallery = () => {  
   const [moviename, setMoviename] = useState(""); 
@@ -36,9 +36,10 @@ const MovieGallery = () => {
     fetchData({type:"top200"})
   }
 
-  const getIndianMovies = () => {
-    resetRefs();
-    fetchData({type:"only_india"})
+  const getIndianMovies = (language) => {
+    resetRefs()
+    const lang = (language === "any")? "only_india" : `only_${language}`
+    fetchData({type:lang})
   }
 
   const getAdultMovies = (loc) => {
@@ -118,8 +119,18 @@ const MovieGallery = () => {
  
   const callMovieAPI = async (apiCalls,params) => {
     let apiPromises = [];
+    const API = {
+      "top200" : TOP_RATED_MOVIE,
+      "adult_india": ADULT_INDIA,
+      "only_india" : ONLY_INDIA,
+      "adult_usa" : ADULT_USA,
+      "adult_uk" : ADULT_UK,
+      "only_tamil": ONLY_TAMIL,
+      "only_telugu" : ONLY_TELUGU,
+      "only_hindi" : ONLY_HINDI
+    }
     for(let i=1;i<=apiCalls;i++){      
-      const page = params.type ==="random" ? `${TOP_RATED_MOVIE}${params.randomPages[i-1]}` : params.type ==="adult_india" ? `${ADULT_INDIA}${i}` : params.type ==="only_india" ? `${ONLY_INDIA}${i}` : params.type ==="adult_usa" ? `${ADULT_USA}${i}` : params.type ==="adult_uk" ? `${ADULT_UK}${i}` : `${TOP_RATED_MOVIE}${i}`;
+      const page = params.type ==="random" ? `${TOP_RATED_MOVIE}${params.randomPages[i-1]}` : `${API[params.type]}${i}`;
       apiPromises[i-1] = fetch(page);
     }    
     const allPromises = await Promise.all(apiPromises)
@@ -184,9 +195,10 @@ const MovieGallery = () => {
     currentVisitRef.current = null;
   }
   const noMovieText = movieRef.current.length && !movieState.movies.length ? "No Movies Found" : !movieRef.current.length ? "Loading..." : "";
+  const indianOnly = (movieState.mode === "only_india" || movieState.mode === "only_telugu" || movieState.mode === "only_hindi" || movieState.mode === "only_tamil") ? true : false
 
   return (
-    <div className={mystyles.galleryStyle}>
+    <div className={mystyles.galleryMain}>
       <h1 className={mystyles.gallery}>Movie Gallery ({movieState.movies.length})</h1>
       <div>
         <p>
@@ -194,11 +206,17 @@ const MovieGallery = () => {
             Top 200
           </span> | <span className={movieState.mode === "random" ? mystyles.selected : ""} onClick={getRandomMovies}>
             Random 200
-          </span> | <span className={movieState.mode === "only_india" ? mystyles.selected : ""} onClick={getIndianMovies}>
+          </span> | <span className={indianOnly ? mystyles.selected : ""} onClick={() => getIndianMovies("any")}>
             Indian
           </span>
-        </p>        
-        <span>18+ Movies &gt;</span> <span className={movieState.mode === "adult_usa" ? mystyles.selected : ""} onClick={() => getAdultMovies("usa")}>
+        </p>
+        {indianOnly && <p>
+          <span className={movieState.mode === "only_india" ?  mystyles.selected : ""} onClick={() => getIndianMovies("any")}>Any</span> | 
+          <span className={movieState.mode === "only_tamil" ?  mystyles.selected : ""} onClick={() => getIndianMovies("tamil")}>Tamil</span> | 
+          <span className={movieState.mode === "only_hindi" ?  mystyles.selected : ""} onClick={() => getIndianMovies("hindi")}>Hindi</span> | 
+          <span className={movieState.mode === "only_telugu" ?  mystyles.selected : ""} onClick={() => getIndianMovies("telugu")}>Telugu</span></p>
+          }        
+        <label>18+ Movies &gt;</label> <span className={movieState.mode === "adult_usa" ? mystyles.selected : ""} onClick={() => getAdultMovies("usa")}>
           USA
         </span> | <span className={movieState.mode === "adult_uk" ? mystyles.selected : ""} onClick={() => getAdultMovies("uk")}>
           UK
