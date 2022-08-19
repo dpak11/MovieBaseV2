@@ -164,7 +164,7 @@ const MovieGallery = () => {
   const sortFilter = (params=null) => {
     const getSortParam = () => {
       if(params) return params;
-      return sortTypeRef.current?.name?"name":sortTypeRef.current?.rating?"rating":sortTypeRef.current?.release?"release":null
+      return sortTypeRef.current?.name?.isSet?"name":sortTypeRef.current?.rating?.isSet?"rating":sortTypeRef.current?.release?.isSet?"release":null
     };    
     const sortParam = getSortParam()    
     movieDispatch({type:"SORT_FILTER", payload:{
@@ -211,9 +211,9 @@ const MovieGallery = () => {
           </span>
         </p>
         {indianOnly && <p>
-          <span className={movieState.mode === "only_india" ?  mystyles.selected : ""} onClick={() => getIndianMovies("any")}>Any</span> | 
-          <span className={movieState.mode === "only_tamil" ?  mystyles.selected : ""} onClick={() => getIndianMovies("tamil")}>Tamil</span> | 
-          <span className={movieState.mode === "only_hindi" ?  mystyles.selected : ""} onClick={() => getIndianMovies("hindi")}>Hindi</span> | 
+          <span className={movieState.mode === "only_india" ?  mystyles.selected : ""} onClick={() => getIndianMovies("any")}>Any</span> |&nbsp;
+          <span className={movieState.mode === "only_tamil" ?  mystyles.selected : ""} onClick={() => getIndianMovies("tamil")}>Tamil</span> |&nbsp; 
+          <span className={movieState.mode === "only_hindi" ?  mystyles.selected : ""} onClick={() => getIndianMovies("hindi")}>Hindi</span> |&nbsp; 
           <span className={movieState.mode === "only_telugu" ?  mystyles.selected : ""} onClick={() => getIndianMovies("telugu")}>Telugu</span></p>
           }        
         <label>18+ Movies &gt;</label> <span className={movieState.mode === "adult_usa" ? mystyles.selected : ""} onClick={() => getAdultMovies("usa")}>
