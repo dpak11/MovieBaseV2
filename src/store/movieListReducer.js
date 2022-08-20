@@ -1,8 +1,9 @@
+import initState from "./initState";
 
 const MovieListReducer = (state, action) => {  
     if(action.type === "LOAD"){
-      const {movielist, listType} = action.payload
-      return {...state, movies: [...movielist], mode:listType}
+      const {movielist, mode} = action.payload
+      return {...state, movies: [...movielist], sortType:{...initState.sortType}, mode}
     }
     if(action.type === "SORT_FILTER"){
       return doSortAndFilter(state,action)      
@@ -13,15 +14,11 @@ const MovieListReducer = (state, action) => {
   function doSortAndFilter(state,{payload}){
     const {setFilters,sortParam,sortTypeRef} = payload;
       let mov = setFilters()
-      let currentState = {...state} 
-      console.log("Current State", currentState)
-           
+      let currentState = {...state}            
       if(sortParam){
         const sortTypeData = {
-          name: {isSet:false,asc:true},
-          rating: {isSet:false,asc:true},
-          release: {isSet:false,asc:true},
-          [sortParam]: {isSet:true,asc:currentState.sortType[sortParam].asc = !currentState.sortType[sortParam].asc},
+          ...initState.sortType,
+          [sortParam]: {isSet:true,asc: !currentState.sortType[sortParam].asc},
         };
         currentState.sortType = sortTypeData
         sortTypeRef.current = sortTypeData;
@@ -42,7 +39,7 @@ const MovieListReducer = (state, action) => {
         
       }
       if (sortParam === "name") {
-        let returnNum1 = currentState.sortType.name.asc ? -1 : 1;
+        let returnNum1 = currentState.sortType.name.asc ? 1 : -1;
         let returnNum2 = returnNum1 === -1 ? 1 : -1;
         mov.sort((a, b) => {
           if (a.name < b.name) return returnNum1;
@@ -57,7 +54,6 @@ const MovieListReducer = (state, action) => {
           mov.sort((a, b) => a.rating - b.rating);
         }
       }
-      console.log("Current State", currentState)
       currentState.movies = mov
       return currentState
   }

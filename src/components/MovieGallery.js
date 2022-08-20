@@ -155,7 +155,7 @@ const MovieGallery = () => {
       type:"LOAD", 
       payload:{
         movielist:movieRef.current, 
-        listType:param.type
+        mode:param.type
       }
     })
   };
