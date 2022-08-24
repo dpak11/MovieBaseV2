@@ -33,18 +33,18 @@ const MovieGallery = () => {
   
   const getTop200 = () => {
     resetRefs();
-    fetchData({type:"top200"})
+    fetchData({mode:"top200"})
   }
 
   const getIndianMovies = (language) => {
     resetRefs()
     const lang = (language === "any")? "only_india" : `only_${language}`
-    fetchData({type:lang})
+    fetchData({mode:lang})
   }
 
   const getAdultMovies = (loc) => {
     resetRefs();
-    fetchData({type:`adult_${loc}`})
+    fetchData({mode:`adult_${loc}`})
   }
 
   const getRandomMovies = () =>{
@@ -52,7 +52,7 @@ const MovieGallery = () => {
     let list = Array(20).fill(0).map(() => Math.ceil(Math.random()*500))
     let rndList =  [...new Set(list)]
     let randomPages = rndList.splice(0,10)
-    fetchData({type:"random",randomPages})
+    fetchData({mode:"random",randomPages})
   }
 
   const removeMovie = (id) => {
@@ -130,7 +130,7 @@ const MovieGallery = () => {
       "only_hindi" : ONLY_HINDI
     }
     for(let i=1;i<=apiCalls;i++){      
-      const page = params.type ==="random" ? `${TOP_RATED_MOVIE}${params.randomPages[i-1]}` : `${API[params.type]}${i}`;
+      const page = params.mode ==="random" ? `${TOP_RATED_MOVIE}${params.randomPages[i-1]}` : `${API[params.mode]}${i}`;
       apiPromises[i-1] = fetch(page);
     }    
     const allPromises = await Promise.all(apiPromises)
@@ -155,7 +155,7 @@ const MovieGallery = () => {
       type:"LOAD", 
       payload:{
         movielist:movieRef.current, 
-        mode:param.type
+        mode:param.mode
       }
     })
   };
